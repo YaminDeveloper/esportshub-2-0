@@ -1,4 +1,7 @@
 import Link from 'next/link'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { auth } from '@/lib/auth'
 import {
   Trophy,
   Target,
@@ -24,7 +27,10 @@ import {
 
 export const metadata = { title: 'Dashboard — EsportsHub 2.0' }
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const session = await auth.api.getSession({ headers: await headers() })
+  if (!session?.user) redirect('/login')
+
   const p = playerMap['razor']
   const team = teamMap[p.team]
 

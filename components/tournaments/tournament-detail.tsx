@@ -106,7 +106,7 @@ export function TournamentDetail({ t }: { t: Tournament }) {
                     Register Now
                   </Button>
                 ) : t.status === 'live' ? (
-                  <Button size="lg" className="h-9 glow-live bg-live text-live-foreground [a]:hover:bg-live/90">
+                  <Button size="lg" className="h-9 glow-live bg-live text-live-foreground [a]:hover:bg-live/90" render={<Link href="/matches/nova-semifinal-1" />}>
                     Watch Live
                   </Button>
                 ) : (

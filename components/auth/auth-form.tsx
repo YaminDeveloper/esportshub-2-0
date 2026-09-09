@@ -1,12 +1,47 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { games } from '@/lib/data'
+import { authClient } from '@/lib/auth-client'
+import { useState } from 'react'
+
+function getErrorMessage(error: unknown) {
+  return error instanceof Error ? error.message : 'Unable to complete authentication.'
+}
+
+export type AuthFormMode = 'login' | 'register'
+
+function useAuthForm(mode: AuthFormMode, router: ReturnType<typeof useRouter>) {
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function submit(email: string, password: string, name?: string) {
+    setError('')
+    setLoading(true)
+    try {
+      const result = mode === 'login'
+        ? await authClient.signIn.email({ email, password })
+        : await authClient.signUp.email({ email, password, name: name ?? email.split('@')[0] })
+      if (result.error) {
+        setError('We could not complete that request. Check your details and try again.')
+        return
+      }
+      router.push('/dashboard')
+      router.refresh()
+    } catch (caught) {
+      console.log('[v0] Authentication request failed', getErrorMessage(caught))
+      setError('We could not complete that request. Check your details and try again.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { error, loading, submit }
+}
 
 function Input({ className, ...props }: React.ComponentProps<'input'>) {
   return (
@@ -23,13 +58,18 @@ function Input({ className, ...props }: React.ComponentProps<'input'>) {
 export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
   const router = useRouter()
   const [show, setShow] = useState(false)
-  const [loading, setLoading] = useState(false)
   const [accountType, setAccountType] = useState<'player' | 'organizer'>('player')
+  const { error, loading, submit: submitAuth } = useAuthForm(mode, router)
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    setLoading(true)
-    setTimeout(() => router.push('/dashboard'), 900)
+    if (e.nativeEvent.isComposing || (e.nativeEvent as KeyboardEvent).keyCode === 229) return
+    const form = new FormData(e.currentTarget)
+    await submitAuth(
+      String(form.get('email') ?? ''),
+      String(form.get('password') ?? ''),
+      String(form.get('handle') ?? ''),
+    )
   }
 
   return (
@@ -88,14 +128,14 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
             </div>
             <label className="block">
               <span className="mb-1.5 block text-sm font-medium">Handle</span>
-              <Input placeholder="YourGamerTag" required />
+              <Input name="handle" placeholder="YourGamerTag" required />
             </label>
           </>
         )}
 
         <label className="block">
           <span className="mb-1.5 block text-sm font-medium">Email</span>
-          <Input type="email" placeholder="you@esportshub.gg" required />
+          <Input name="email" type="email" placeholder="you@esportshub.gg" required />
         </label>
 
         <label className="block">
@@ -106,7 +146,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
             )}
           </span>
           <div className="relative">
-            <Input type={show ? 'text' : 'password'} placeholder="••••••••" required className="pr-10" />
+            <Input name="password" type={show ? 'text' : 'password'} placeholder="••••••••" minLength={8} required className="pr-10" />
             <button
               type="button"
               onClick={() => setShow((v) => !v)}
@@ -137,6 +177,7 @@ export function AuthForm({ mode }: { mode: 'login' | 'register' }) {
           </div>
         )}
 
+        {error && <p role="alert" className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
         <Button type="submit" disabled={loading} className="h-10 w-full glow-primary">
           {loading && <Loader2 className="size-4 animate-spin" />}
           {mode === 'login' ? 'Sign In' : 'Create Account'}
