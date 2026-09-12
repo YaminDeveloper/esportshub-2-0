@@ -10,9 +10,9 @@ export function TournamentCard({ t }: { t: Tournament }) {
   return (
     <Link
       href={`/tournaments/${t.id}`}
-      className="group relative flex flex-col overflow-hidden rounded-lg border border-border bg-card transition-all hover:border-primary/40 hover:shadow-[0_0_30px_-12px_oklch(0.8_0.145_197_/_0.5)]"
+      className="glass glass-hover group relative flex flex-col overflow-hidden rounded-2xl"
     >
-      <div className="relative aspect-[16/9] overflow-hidden">
+      <div className="sheen relative aspect-[16/9] overflow-hidden">
         <Image
           src={t.banner || '/placeholder.svg'}
           alt={t.name}

@@ -43,7 +43,7 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-border/70 bg-background/55 backdrop-blur-2xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
           <Logo />
 
@@ -53,7 +53,7 @@ export function Navbar() {
                 key={l.href}
                 href={l.href}
                 className={cn(
-                  'rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                  'rounded-full px-3 py-2 text-sm font-medium transition-all hover:-translate-y-0.5',
                   isActive(l.href)
                     ? 'bg-secondary text-foreground'
                     : 'text-muted-foreground hover:bg-secondary/60 hover:text-foreground',
@@ -67,7 +67,7 @@ export function Navbar() {
           <div className="ml-auto flex items-center gap-1.5">
             <button
               onClick={() => setSearch(true)}
-              className="flex h-9 items-center gap-2 rounded-md border border-border bg-secondary/50 px-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
+              className="glass flex h-9 items-center gap-2 rounded-full px-3 text-sm text-muted-foreground transition-all hover:border-primary/40 hover:text-foreground"
               aria-label="Search"
             >
               <Search className="size-4" />
@@ -141,7 +141,7 @@ export function Navbar() {
 
             <Link
               href="/dashboard"
-              className="hidden items-center gap-2 rounded-md border border-border bg-secondary/50 py-1 pl-1 pr-3 transition-colors hover:border-primary/40 sm:flex"
+              className="glass hidden items-center gap-2 rounded-full py-1 pl-1 pr-3 transition-all hover:border-primary/40 sm:flex"
             >
               <PlayerAvatar handle="Razor" size="sm" />
               <span className="text-sm font-medium">Razor</span>

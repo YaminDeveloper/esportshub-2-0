@@ -9,17 +9,20 @@ export function Hero() {
   const featured = live[0]
 
   return (
-    <section className="relative overflow-hidden border-b border-border">
+    <section className="liquid-mesh relative isolate overflow-hidden border-b border-border/70">
       <Image
         src="/hero-arena.png"
         alt=""
         fill
         priority
-        className="object-cover opacity-40"
+        className="object-cover opacity-30 mix-blend-screen"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-background via-background/85 to-background/50" />
-      <div className="absolute inset-0 bg-grid opacity-40" />
+      <div className="absolute inset-0 bg-grid opacity-20" />
+      <div className="orb absolute -left-24 top-24 -z-10 size-72 bg-primary/20 blur-3xl" />
+      <div className="orb absolute right-0 top-10 -z-10 size-96 bg-accent/25 blur-3xl [animation-delay:1.5s]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,oklch(0.105_0.025_272_/_35%)_75%)]" />
 
       <div className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:py-36">
         <div className="max-w-3xl">
@@ -28,7 +31,7 @@ export function Hero() {
             {live.length} tournaments live right now
           </div>
 
-          <h1 className="font-display text-5xl font-bold leading-[1.02] tracking-tight text-balance sm:text-6xl lg:text-7xl">
+          <h1 className="font-display text-5xl font-bold leading-[0.98] tracking-[-0.04em] text-balance sm:text-6xl lg:text-8xl">
             Compete. Rank.
             <br />
             <span className="text-gradient">Dominate the arena.</span>
@@ -60,7 +63,7 @@ export function Hero() {
         {featured && (
           <Link
             href={`/tournaments/${featured.id}`}
-            className="group mt-14 flex max-w-md items-center gap-4 rounded-xl border border-border bg-card/70 p-3 backdrop-blur-sm transition-all hover:border-live/40 hover:glow-live"
+            className="glass glass-hover group mt-14 flex max-w-md items-center gap-4 rounded-2xl p-3"
           >
             <div className="relative aspect-square w-20 shrink-0 overflow-hidden rounded-lg">
               <Image
