@@ -15,6 +15,7 @@ const gameArt: Record<string, string> = {
   'free-fire': '/game-tiles.png',
   'call-of-duty': '/game-tiles.png',
   efootball: '/game-tiles.png',
+  'pubg-mobile': '/promo-pubg.png',
 }
 
 const liveRows = [

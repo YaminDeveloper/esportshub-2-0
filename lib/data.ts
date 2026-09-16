@@ -5,6 +5,7 @@ export type GameId =
   | 'frontline'
   | 'titan-clash'
   | 'velocity'
+  | 'pubg-mobile'
 
 export type Game = {
   id: GameId
@@ -21,6 +22,7 @@ export const games: Game[] = [
   { id: 'frontline', name: 'Frontline', short: 'FL', genre: 'Team Shooter', accent: 'oklch(0.64 0.24 12)' },
   { id: 'titan-clash', name: 'Titan Clash', short: 'TC', genre: 'Fighting', accent: 'oklch(0.6 0.13 160)' },
   { id: 'velocity', name: 'Velocity', short: 'VL', genre: 'Racing', accent: 'oklch(0.75 0.13 240)' },
+  { id: 'pubg-mobile', name: 'PUBG Mobile', short: 'PUBG', genre: 'Battle Royale', accent: 'oklch(0.76 0.15 78)' },
 ]
 
 export const gameMap: Record<GameId, Game> = Object.fromEntries(
@@ -50,6 +52,24 @@ export type Tournament = {
 }
 
 export const tournaments: Tournament[] = [
+  {
+    id: 'pubg-mobile-global-cup-2026',
+    name: 'PUBG Mobile Global Cup 2026',
+    game: 'pubg-mobile',
+    status: 'registration',
+    prizePool: 250000,
+    currency: 'USD',
+    region: 'Global',
+    format: 'Squad · Points Series',
+    teams: 48,
+    maxTeams: 64,
+    startDate: '2026-11-14',
+    endDate: '2026-11-22',
+    organizer: 'EsportsHub Global',
+    tier: 'S',
+    banner: '/promo-pubg.png',
+    description: 'The global PUBG Mobile squad championship. Forty-eight elite teams battle across Erangel, Miramar and Sanhok for the Global Cup trophy.',
+  },
   {
     id: 'nova-masters-2026',
     name: 'Nova Masters: Ignite',
