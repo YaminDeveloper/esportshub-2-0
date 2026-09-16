@@ -21,8 +21,8 @@ export const games: Game[] = [
   { id: 'apex-arena', name: 'Apex Arena', short: 'AA', genre: 'Battle Royale', accent: 'oklch(0.82 0.15 85)' },
   { id: 'frontline', name: 'Frontline', short: 'FL', genre: 'Team Shooter', accent: 'oklch(0.64 0.24 12)' },
   { id: 'titan-clash', name: 'Titan Clash', short: 'TC', genre: 'Fighting', accent: 'oklch(0.6 0.13 160)' },
-  { id: 'velocity', name: 'Velocity', short: 'VL', genre: 'Racing', accent: 'oklch(0.75 0.13 240)' },
   { id: 'pubg-mobile', name: 'PUBG Mobile', short: 'PUBG', genre: 'Battle Royale', accent: 'oklch(0.76 0.15 78)' },
+  { id: 'velocity', name: 'Velocity', short: 'VL', genre: 'Racing', accent: 'oklch(0.75 0.13 240)' },
 ]
 
 export const gameMap: Record<GameId, Game> = Object.fromEntries(
