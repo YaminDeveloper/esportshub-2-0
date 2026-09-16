@@ -1,0 +1,101 @@
+'use client'
+
+import { useState } from 'react'
+import { CheckCircle2, ChevronRight, Clock3, Crosshair, Layers3, LockKeyhole, Trophy, Users } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+
+const stages = [
+  { id: 'qualifiers', label: 'Stage 1 · Qualifiers', meta: '4 groups · 96 teams', detail: 'Top 6 from each group advance' },
+  { id: 'group-stage', label: 'Stage 2 · Group Stage', meta: '4 groups · 24 teams', detail: 'Top 5 from each group advance' },
+  { id: 'survival', label: 'Stage 3 · Survival', meta: '1 lobby · 20 teams', detail: 'Top 8 qualify for finals' },
+  { id: 'grand-finals', label: 'Stage 4 · Grand Finals', meta: '1 lobby · 16 teams', detail: '12-match cumulative points final' },
+] as const
+
+const groupNames = ['Group A', 'Group B', 'Group C', 'Group D']
+const teams = ['Nova Reign', 'Vortex Prime', 'DRS Gaming', 'Raven Unit', 'Krypton 7', 'Titan Esports', 'FalconX', 'Orbit Crew', 'Apex Wolves', 'Zenith', 'NightRaid', 'Pulse 9']
+const scores = [142, 131, 119, 111, 104, 98, 91, 84, 79, 73, 66, 58]
+
+export function PubgStageView({ compact = false }: { compact?: boolean }) {
+  const [stage, setStage] = useState<(typeof stages)[number]['id']>('qualifiers')
+  const [group, setGroup] = useState('Group A')
+  const activeStage = stages.find((item) => item.id === stage) ?? stages[0]
+  const published = group !== 'Group D'
+  const groupMatches = [
+    { map: 'Erangel', match: 'Match 1', date: 'Nov 14 · 18:00', results: [['Nova Reign', 10, 6], ['Vortex Prime', 6, 4], ['DRS Gaming', 4, 3], ['Raven Unit', 2, 2]] },
+    { map: 'Miramar', match: 'Match 2', date: 'Nov 14 · 18:45', results: [['DRS Gaming', 10, 8], ['Nova Reign', 6, 5], ['Krypton 7', 4, 4], ['Vortex Prime', 2, 2]] },
+    { map: 'Sanhok', match: 'Match 3', date: 'Nov 14 · 19:30', results: [['Vortex Prime', 10, 7], ['Raven Unit', 6, 5], ['Nova Reign', 4, 4], ['DRS Gaming', 2, 3]] },
+    { map: 'Erangel', match: 'Match 4', date: 'Nov 14 · 20:15', results: [['Nova Reign', 10, 8], ['Krypton 7', 6, 4], ['Vortex Prime', 4, 3], ['Raven Unit', 2, 2]] },
+    { map: 'Miramar', match: 'Match 5', date: 'Nov 14 · 21:00', results: [['Raven Unit', 10, 7], ['DRS Gaming', 6, 5], ['Nova Reign', 4, 3], ['Vortex Prime', 2, 2]] },
+  ]
+  const cutoff = stage === 'qualifiers' ? 6 : stage === 'group-stage' ? 5 : stage === 'survival' ? 8 : 16
+
+  return (
+    <div className={cn('space-y-6', compact && 'space-y-4')}>
+      <div className="grid gap-2 md:grid-cols-4">
+        {stages.map((item, index) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setStage(item.id)}
+            className={cn('glass rounded-2xl p-4 text-left transition-all hover:-translate-y-0.5', stage === item.id && 'border-primary/60 bg-primary/10 shadow-[0_0_30px_-14px_oklch(0.82_0.16_195_/_0.9)]')}
+          >
+            <div className="mb-3 flex items-center justify-between">
+              <span className={cn('grid size-8 place-items-center rounded-xl text-xs font-bold', stage === item.id ? 'bg-primary text-primary-foreground' : 'bg-secondary text-muted-foreground')}>{index + 1}</span>
+              {index < stages.length - 1 && <ChevronRight className="hidden size-4 text-muted-foreground md:block" />}
+            </div>
+            <div className="font-display text-sm font-bold">{item.label}</div>
+            <div className="mt-1 text-xs text-muted-foreground">{item.meta}</div>
+          </button>
+        ))}
+      </div>
+
+      <div className="glass rounded-2xl p-4 sm:p-6">
+        <div className="flex flex-col gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <div className="mb-2 flex items-center gap-2"><Badge variant="outline"><Layers3 className="mr-1 size-3" /> Multi-stage format</Badge><Badge variant="gold">PUBG MOBILE</Badge></div>
+            <h2 className="font-display text-2xl font-bold tracking-tight">{activeStage.label}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{activeStage.detail} · 4–5 matches per lobby</p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center">
+            <div className="rounded-xl bg-secondary/70 px-3 py-2"><div className="font-display text-lg font-bold text-primary">{activeStage.meta.split('·')[0].trim().split(' ')[0]}</div><div className="text-[10px] text-muted-foreground">Lobbies</div></div>
+            <div className="rounded-xl bg-secondary/70 px-3 py-2"><div className="font-display text-lg font-bold">{stage === 'grand-finals' ? 12 : 5}</div><div className="text-[10px] text-muted-foreground">Matches</div></div>
+            <div className="rounded-xl bg-secondary/70 px-3 py-2"><div className="font-display text-lg font-bold text-gold">Top {cutoff}</div><div className="text-[10px] text-muted-foreground">Qualify</div></div>
+          </div>
+        </div>
+
+        {stage !== 'grand-finals' && (
+          <div className="mt-5 flex flex-wrap gap-2">
+            {groupNames.map((name) => <button key={name} type="button" onClick={() => setGroup(name)} className={cn('rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors', group === name ? 'border-primary/50 bg-primary/15 text-primary' : 'border-border/70 text-muted-foreground hover:text-foreground')}>{name}</button>)}
+          </div>
+        )}
+
+        {stage === 'grand-finals' ? (
+          <div className="mt-5 grid gap-4 lg:grid-cols-[1.15fr_.85fr]">
+            <div className="rounded-2xl border border-primary/25 bg-primary/5 p-5"><Trophy className="mb-4 size-7 text-gold" /><h3 className="font-display text-xl font-bold">Global Championship Lobby</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Six Erangel, three Miramar and three Sanhok matches. Every placement and elimination counts toward the final cumulative leaderboard.</p><Button className="mt-5" size="sm">View finals schedule</Button></div>
+            <div className="rounded-2xl border border-border/70 p-5"><div className="mb-3 flex items-center gap-2 text-sm font-semibold"><Crosshair className="size-4 text-primary" /> Scoring system</div><div className="space-y-2 text-sm text-muted-foreground"><div className="flex justify-between"><span>Placement points</span><span className="font-semibold text-foreground">1st = 10 pts</span></div><div className="flex justify-between"><span>Elimination points</span><span className="font-semibold text-foreground">1 kill = 1 pt</span></div><div className="flex justify-between"><span>Tie-breaker</span><span className="font-semibold text-foreground">Best placement</span></div></div></div>
+          </div>
+        ) : (
+          <div className="mt-5 space-y-5">
+            {!published ? (
+              <div className="flex items-start gap-3 rounded-2xl border border-gold/30 bg-gold/5 p-4 text-sm">
+                <LockKeyhole className="mt-0.5 size-5 shrink-0 text-gold" />
+                <div><div className="font-semibold">Results are waiting to be published</div><p className="mt-1 text-muted-foreground">The tournament admin has not verified {group} results yet. Match scores and overall standings will appear here once published.</p></div>
+              </div>
+            ) : (
+              <>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+                  {groupMatches.map((match) => <div key={match.match} className="rounded-2xl border border-border/70 bg-secondary/35 p-3"><div className="flex items-center justify-between"><Badge variant="outline">{match.match}</Badge><span className="text-[10px] text-muted-foreground">{match.map}</span></div><div className="mt-3 space-y-2">{match.results.slice(0, 3).map(([team, placement, elims], index) => <div key={team} className="flex items-center justify-between text-xs"><span className="flex items-center gap-2"><span className="font-display text-muted-foreground">{index + 1}</span><span className="font-medium">{team}</span></span><span className="text-muted-foreground">{Number(placement) + Number(elims)} pts</span></div>)}</div><div className="mt-3 flex items-center gap-1 text-[10px] text-muted-foreground"><Clock3 className="size-3" /> {match.date}</div></div>)}
+                </div>
+                <div className="rounded-2xl border border-primary/25 bg-primary/[0.035] p-4"><div className="mb-3 flex items-center justify-between"><div><div className="flex items-center gap-2 text-sm font-semibold"><Trophy className="size-4 text-gold" /> {group} overall result</div><p className="mt-1 text-xs text-muted-foreground">Cumulative placement + elimination points after {groupMatches.length} published matches</p></div><Badge className="border-primary/30 bg-primary/10 text-primary"><CheckCircle2 className="mr-1 size-3" /> Published</Badge></div><div className="overflow-x-auto"><table className="w-full min-w-[520px] text-left text-sm"><thead className="text-[10px] uppercase tracking-wider text-muted-foreground"><tr><th className="px-3 py-2">Rank</th><th className="px-3 py-2">Team</th><th className="px-3 py-2">Matches</th><th className="px-3 py-2">Placement</th><th className="px-3 py-2">Elims</th><th className="px-3 py-2">Total</th></tr></thead><tbody>{teams.slice(0, 8).map((team, index) => <tr key={team} className="border-t border-border/50"><td className="px-3 py-2 font-display font-bold">#{index + 1}</td><td className="px-3 py-2 font-semibold">{team}</td><td className="px-3 py-2 text-muted-foreground">{groupMatches.length}</td><td className="px-3 py-2 text-muted-foreground">{Math.max(10, 42 - index * 4)}</td><td className="px-3 py-2 text-muted-foreground">{Math.max(4, 26 - index * 2)}</td><td className="px-3 py-2 font-display font-bold text-primary">{scores[index]}</td></tr>)}</tbody></table></div></div>
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      {!compact && <div className="flex items-center gap-2 text-xs text-muted-foreground"><Users className="size-4" /> Each lobby hosts 22–25 squads. Qualified teams are reseeded into the next stage.</div>}
+    </div>
+  )
+}

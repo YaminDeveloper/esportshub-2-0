@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { ArrowLeft } from 'lucide-react'
 import { tournaments } from '@/lib/data'
 import { Bracket } from '@/components/esports/bracket'
+import { PubgStageView } from '@/components/tournaments/pubg-stage-view'
 import { StatusBadge } from '@/components/esports/status-badge'
 import { GameTag } from '@/components/esports/game-tag'
 
@@ -36,21 +37,22 @@ export default async function BracketPage({
             <GameTag game={t.game} />
           </div>
           <h1 className="font-display text-3xl font-bold tracking-tight">
-            {t.name} · Bracket
+            {t.name} · {t.game === 'pubg-mobile' ? 'Stages' : 'Bracket'}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Single-elimination · {t.teams} teams · Best of 3
+            {t.game === 'pubg-mobile' ? 'Multi-stage group format · 22–25 squads per lobby' : `Single-elimination · ${t.teams} teams · Best of 3`}
           </p>
         </div>
       </div>
 
-      <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
-        <Bracket />
-      </div>
-
-      <p className="mt-4 text-center text-xs text-muted-foreground">
-        Scroll horizontally to view all rounds · Winners advance to the right
-      </p>
+      {t.game === 'pubg-mobile' ? <PubgStageView /> : <>
+        <div className="rounded-xl border border-border bg-card p-4 sm:p-6">
+          <Bracket />
+        </div>
+        <p className="mt-4 text-center text-xs text-muted-foreground">
+          Scroll horizontally to view all rounds · Winners advance to the right
+        </p>
+      </>}
     </div>
   )
 }
