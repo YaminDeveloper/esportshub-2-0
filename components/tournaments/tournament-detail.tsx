@@ -20,6 +20,7 @@ import { StatusBadge } from '@/components/esports/status-badge'
 import { GameTag } from '@/components/esports/game-tag'
 import { TeamLogo } from '@/components/esports/team-logo'
 import { Bracket } from '@/components/esports/bracket'
+import { PubgStageView } from '@/components/tournaments/pubg-stage-view'
 import {
   formatMoney,
   formatCompact,
@@ -28,7 +29,7 @@ import {
   type Tournament,
 } from '@/lib/data'
 
-const tabs = ['Overview', 'Bracket', 'Teams', 'Rules'] as const
+const tabs = ['Overview', 'Bracket', 'Stages', 'Teams', 'Rules'] as const
 type Tab = (typeof tabs)[number]
 
 const prizeSplit = [
@@ -147,7 +148,7 @@ export function TournamentDetail({ t }: { t: Tournament }) {
       {/* Tabs */}
       <div className="sticky top-16 z-30 border-b border-border bg-background/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4 sm:px-6 scrollbar-hide">
-          {tabs.map((tb) => (
+          {tabs.filter((tb) => tb !== 'Bracket' || t.game !== 'pubg-mobile').filter((tb) => tb !== 'Stages' || t.game === 'pubg-mobile').map((tb) => (
             <button
               key={tb}
               onClick={() => setTab(tb)}
@@ -167,7 +168,9 @@ export function TournamentDetail({ t }: { t: Tournament }) {
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        {tab === 'Overview' && (
+        {tab === 'Overview' && t.game === 'pubg-mobile' ? (
+          <PubgStageView />
+        ) : tab === 'Overview' && (
           <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">
             <div className="space-y-8">
               <section>
@@ -263,7 +266,9 @@ export function TournamentDetail({ t }: { t: Tournament }) {
           </div>
         )}
 
-        {tab === 'Bracket' && (
+        {tab === 'Stages' && t.game === 'pubg-mobile' && <PubgStageView />}
+
+        {tab === 'Bracket' && t.game !== 'pubg-mobile' && (
           <div>
             <div className="mb-6 flex items-center justify-between">
               <div>
