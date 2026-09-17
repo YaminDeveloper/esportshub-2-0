@@ -76,9 +76,9 @@ export function PubgStageView({ compact = false }: { compact?: boolean }) {
       <div className="glass rounded-2xl p-4 sm:p-6">
         <div className="flex flex-col gap-4 border-b border-border/60 pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2"><Badge variant="outline"><Layers3 className="mr-1 size-3" /> Multi-stage format</Badge><Badge variant="gold">PUBG MOBILE</Badge></div>
+            <div className="mb-2 flex flex-wrap items-center gap-2"><Badge variant="outline"><Layers3 className="mr-1 size-3" /> Multi-stage format</Badge><Badge variant="gold">PUBG MOBILE</Badge><Badge className="border-primary/30 bg-primary/10 text-primary"><span className="mr-1.5 size-1.5 animate-pulse rounded-full bg-primary" />Latest update · 2 min ago</Badge></div>
             <h2 className="font-display text-2xl font-bold tracking-tight">{activeStage.label}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{activeStage.detail} · 4–5 matches per lobby</p>
+            <p className="mt-1 text-sm text-muted-foreground">{activeStage.detail} · 4–5 matches per lobby</p><p className="mt-2 flex items-center gap-1.5 text-xs text-primary/80"><span className="size-1.5 animate-pulse rounded-full bg-primary" />Match results synced 2 min ago · updates appear after admin publish</p>
           </div>
           <div className="grid grid-cols-3 gap-2 text-center">
             <div className="rounded-xl bg-secondary/70 px-3 py-2"><div className="font-display text-lg font-bold text-primary">{activeStage.meta.split('·')[0].trim().split(' ')[0]}</div><div className="text-[10px] text-muted-foreground">Lobbies</div></div>

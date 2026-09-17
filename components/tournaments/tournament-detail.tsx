@@ -87,6 +87,10 @@ export function TournamentDetail({ t }: { t: Tournament }) {
                     {t.region}
                   </span>
                   <span className="flex items-center gap-1.5">
+                    <Clock className="size-4" />
+                    Last updated · 2 min ago
+                  </span>
+                  <span className="flex items-center gap-1.5">
                     <Calendar className="size-4" />
                     {new Date(t.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     {' – '}
