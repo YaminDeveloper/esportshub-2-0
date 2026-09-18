@@ -34,7 +34,7 @@ const teamMeta: Record<string, { flag: string; country: string }> = {
 
 function TeamName({ name }: { name: string }) {
   const meta = teamMeta[name] ?? { flag: '🌐', country: 'International' }
-  return <span className="inline-flex min-w-0 items-center gap-2" title={`${name} · ${meta.country}`}><TeamLogo tag={name.slice(0, 2).toUpperCase()} game="pubg-mobile" size="sm" /><span className="text-base" aria-label={meta.country}>{meta.flag}</span><span className="truncate font-semibold">{name}</span></span>
+  return <span className="inline-flex min-w-0 items-center gap-2" title={`${name} · ${meta.country}`}><span className="text-base" aria-label={meta.country}>{meta.flag}</span><TeamLogo tag={name.slice(0, 2).toUpperCase()} game="pubg-mobile" size="sm" /><span className="truncate font-semibold">{name}</span></span>
 }
 
 export function PubgStageView({ compact = false }: { compact?: boolean }) {
