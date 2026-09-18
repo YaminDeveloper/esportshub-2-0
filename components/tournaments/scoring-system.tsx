@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from 'react'
-import { Check, Crosshair, Flame, Gamepad2, Trophy } from 'lucide-react'
+import { Check, Crosshair, Flame, Gamepad2, Minus, Plus, Trophy } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
@@ -12,10 +12,12 @@ const presets = [
   { id: 'pubg-kr', name: 'PUBG KR', detail: 'Global PUBG ruleset', accent: 'text-primary' },
 ]
 
-const placements = [15, 12, 10, 8, 6, 4, 3, 2, 1, 1, 0, 0, 0, 0, 0, 0]
+const basePlacements = [15, 12, 10, 8, 6, 4, 3, 2, 1, 1]
 
 export function ScoringSystem({ game = 'pubg-mobile' }: { game?: string }) {
   const [selected, setSelected] = useState(game)
+  const [positionCount, setPositionCount] = useState(16)
+  const placements = Array.from({ length: positionCount }, (_, index) => basePlacements[index] ?? 0)
   const preset = presets.find((item) => item.id === selected) ?? presets[0]
 
   return (
@@ -31,7 +33,7 @@ export function ScoringSystem({ game = 'pubg-mobile' }: { game?: string }) {
       </div>
       <div className="grid gap-5 lg:grid-cols-[.8fr_1.2fr]">
         <div className="glass rounded-2xl p-5"><div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-live/10 text-live"><Flame className="size-5" /></span><div><h3 className="font-semibold">Elimination points</h3><p className="text-xs text-muted-foreground">Every confirmed elimination</p></div></div><div className="mt-6 flex items-end justify-between rounded-xl bg-secondary/45 p-4"><span className="text-sm text-muted-foreground">Kill points</span><span className="font-display text-4xl font-bold text-primary">1</span><span className="text-xs text-muted-foreground">per kill</span></div><p className="mt-3 text-xs leading-relaxed text-muted-foreground">Eliminations are added to the placement score after each published match result.</p></div>
-        <div className="glass rounded-2xl p-5"><div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-gold/10 text-gold"><Trophy className="size-5" /></span><div><h3 className="font-semibold">Position points</h3><p className="text-xs text-muted-foreground">{preset.name} placement table</p></div></div><div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4">{placements.map((points, index) => <div key={index} className={cn('flex items-center justify-between rounded-lg border px-3 py-2 text-sm', index < 6 ? 'border-primary/20 bg-primary/[0.06]' : 'border-border/60 bg-background/20')}><span className="text-muted-foreground">#{index + 1}</span><span className="font-display font-bold">{points}</span></div>)}</div></div>
+        <div className="glass rounded-2xl p-5"><div className="flex flex-wrap items-center justify-between gap-4"><div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-gold/10 text-gold"><Trophy className="size-5" /></span><div><h3 className="font-semibold">Position points</h3><p className="text-xs text-muted-foreground">{preset.name} placement table · supports #1–#60</p></div></div><div className="flex items-center gap-2 rounded-xl border border-border/70 bg-background/30 p-1"><button type="button" onClick={() => setPositionCount((count) => Math.max(1, count - 1))} disabled={positionCount === 1} className="grid size-8 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground disabled:opacity-40" aria-label="Decrease number of positions"><Minus className="size-4" /></button><span className="min-w-16 text-center text-sm font-semibold">#{positionCount} <span className="text-xs font-normal text-muted-foreground">slots</span></span><button type="button" onClick={() => setPositionCount((count) => Math.min(60, count + 1))} disabled={positionCount === 60} className="grid size-8 place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground disabled:opacity-40" aria-label="Increase number of positions"><Plus className="size-4" /></button></div></div><div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-6">{placements.map((points, index) => <div key={index} className={cn('flex items-center justify-between rounded-lg border px-3 py-2 text-sm', index < 6 ? 'border-primary/20 bg-primary/[0.06]' : 'border-border/60 bg-background/20')}><span className="text-muted-foreground">#{index + 1}</span><span className="font-display font-bold">{points}</span></div>)}</div></div>
       </div>
       <div className="glass rounded-2xl p-5"><div className="flex items-center gap-3"><Crosshair className="size-5 text-primary" /><h3 className="font-semibold">How the total is calculated</h3></div><div className="mt-4 grid gap-3 md:grid-cols-3"><div className="rounded-xl border border-border/60 bg-background/20 p-4"><div className="text-xs text-muted-foreground">Placement points</div><div className="mt-1 font-display text-2xl font-bold">15</div><div className="text-xs text-muted-foreground">for 1st place</div></div><div className="rounded-xl border border-border/60 bg-background/20 p-4"><div className="text-xs text-muted-foreground">Elimination points</div><div className="mt-1 font-display text-2xl font-bold">1 × kills</div><div className="text-xs text-muted-foreground">confirmed finishes</div></div><div className="rounded-xl border border-primary/30 bg-primary/10 p-4"><div className="text-xs text-muted-foreground">Match total</div><div className="mt-1 font-display text-2xl font-bold text-primary">Placement + kills</div><div className="text-xs text-muted-foreground">cumulative overall score</div></div></div></div>
     </section>
