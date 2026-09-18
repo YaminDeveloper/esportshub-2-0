@@ -21,6 +21,7 @@ import { GameTag } from '@/components/esports/game-tag'
 import { TeamLogo } from '@/components/esports/team-logo'
 import { Bracket } from '@/components/esports/bracket'
 import { PubgStageView } from '@/components/tournaments/pubg-stage-view'
+import { ScoringSystem } from '@/components/tournaments/scoring-system'
 import {
   formatMoney,
   formatCompact,
@@ -29,7 +30,7 @@ import {
   type Tournament,
 } from '@/lib/data'
 
-const tabs = ['Overview', 'Bracket', 'Stages', 'Schedule', 'Teams', 'Rules'] as const
+const tabs = ['Overview', 'Bracket', 'Stages', 'Schedule', 'Teams', 'Scoring', 'Rules'] as const
 type Tab = (typeof tabs)[number]
 
 const prizeSplit = [
@@ -172,7 +173,9 @@ export function TournamentDetail({ t }: { t: Tournament }) {
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        {tab === 'Schedule' && t.game === 'pubg-mobile' ? (
+        {tab === 'Scoring' ? (
+          <ScoringSystem game={t.game} />
+        ) : tab === 'Schedule' && t.game === 'pubg-mobile' ? (
           <section className="space-y-5">
             <div><Badge variant="gold">Tournament schedule</Badge><h2 className="mt-2 font-display text-3xl font-bold">PUBG Mobile Global Cup 2026</h2><p className="mt-1 text-muted-foreground">Stage-by-stage match dates, group lobbies, maps and qualification slots.</p></div>
             <div className="grid gap-4 md:grid-cols-2">{[
