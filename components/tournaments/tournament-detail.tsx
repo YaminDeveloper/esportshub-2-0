@@ -29,7 +29,7 @@ import {
   type Tournament,
 } from '@/lib/data'
 
-const tabs = ['Overview', 'Bracket', 'Stages', 'Teams', 'Rules'] as const
+const tabs = ['Overview', 'Bracket', 'Stages', 'Schedule', 'Teams', 'Rules'] as const
 type Tab = (typeof tabs)[number]
 
 const prizeSplit = [
@@ -172,7 +172,17 @@ export function TournamentDetail({ t }: { t: Tournament }) {
 
       {/* Content */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-        {tab === 'Overview' && t.game === 'pubg-mobile' ? (
+        {tab === 'Schedule' && t.game === 'pubg-mobile' ? (
+          <section className="space-y-5">
+            <div><Badge variant="gold">Tournament schedule</Badge><h2 className="mt-2 font-display text-3xl font-bold">PUBG Mobile Global Cup 2026</h2><p className="mt-1 text-muted-foreground">Stage-by-stage match dates, group lobbies, maps and qualification slots.</p></div>
+            <div className="grid gap-4 md:grid-cols-2">{[
+              { name: 'Stage 1 · Qualifiers', date: 'Nov 14–16, 2026', groups: 'Groups A–D · 24 teams each', matches: '5 matches per group', maps: 'Erangel · Miramar · Sanhok', qualify: 'Top 6 from each group' },
+              { name: 'Stage 2 · Group Stage', date: 'Nov 18–19, 2026', groups: 'Groups A–D · 6 teams each', matches: '6 matches per group', maps: 'Erangel · Miramar · Sanhok', qualify: 'Top 5 from each group' },
+              { name: 'Stage 3 · Survival', date: 'Nov 20, 2026', groups: '1 lobby · 20 teams', matches: '8 matches', maps: 'Erangel · Miramar · Sanhok', qualify: 'Top 8 to Grand Finals' },
+              { name: 'Stage 4 · Grand Finals', date: 'Nov 21–22, 2026', groups: '1 lobby · 16 teams', matches: '12 matches', maps: 'Erangel · Miramar · Sanhok', qualify: 'Champion decided by total points' },
+            ].map((item, index) => <article key={item.name} className="glass rounded-2xl p-5"><div className="flex items-start justify-between gap-3"><div><div className="text-xs font-bold uppercase tracking-wider text-primary">Stage {index + 1}</div><h3 className="mt-1 font-display text-xl font-bold">{item.name.split(' · ')[1]}</h3></div><Badge variant="outline">{item.date}</Badge></div><div className="mt-5 grid gap-3 text-sm sm:grid-cols-2"><div><div className="text-xs text-muted-foreground">Groups / lobby</div><div className="mt-1 font-medium">{item.groups}</div></div><div><div className="text-xs text-muted-foreground">Matches</div><div className="mt-1 font-medium">{item.matches}</div></div><div><div className="text-xs text-muted-foreground">Maps</div><div className="mt-1 font-medium">{item.maps}</div></div><div><div className="text-xs text-muted-foreground">Qualification</div><div className="mt-1 font-medium text-primary">{item.qualify}</div></div></div></article>)}</div>
+          </section>
+        ) : tab === 'Overview' && t.game === 'pubg-mobile' ? (
           <PubgStageView />
         ) : tab === 'Overview' && (
           <div className="grid gap-8 lg:grid-cols-[2fr_1fr]">

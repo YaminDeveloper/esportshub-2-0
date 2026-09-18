@@ -5,6 +5,7 @@ import { CheckCircle2, ChevronRight, Clock3, Crosshair, Layers3, LockKeyhole, Tr
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { TeamLogo } from '@/components/esports/team-logo'
 
 const stages = [
   { id: 'qualifiers', label: 'Stage 1 · Qualifiers', meta: '4 groups · 96 teams', detail: 'Top 6 from each group advance' },
@@ -33,7 +34,7 @@ const teamMeta: Record<string, { flag: string; country: string }> = {
 
 function TeamName({ name }: { name: string }) {
   const meta = teamMeta[name] ?? { flag: '🌐', country: 'International' }
-  return <span className="inline-flex min-w-0 items-center gap-2" title={`${name} · ${meta.country}`}><span className="grid size-7 shrink-0 place-items-center rounded-lg border border-white/10 bg-white/5 text-base" aria-label={meta.country}>{meta.flag}</span><span className="truncate font-semibold">{name}</span></span>
+  return <span className="inline-flex min-w-0 items-center gap-2" title={`${name} · ${meta.country}`}><TeamLogo tag={name.slice(0, 2).toUpperCase()} game="pubg-mobile" size="sm" /><span className="text-base" aria-label={meta.country}>{meta.flag}</span><span className="truncate font-semibold">{name}</span></span>
 }
 
 export function PubgStageView({ compact = false }: { compact?: boolean }) {
@@ -93,7 +94,7 @@ export function PubgStageView({ compact = false }: { compact?: boolean }) {
           </div>
         )}
 
-        {stage !== 'grand-finals' && <div className="mt-5 rounded-2xl border border-gold/25 bg-gold/[0.035] p-4"><div className="mb-3 flex items-center justify-between"><div><div className="flex items-center gap-2 text-sm font-semibold"><Trophy className="size-4 text-gold" /> {activeStage.label} · all groups qualification</div><p className="mt-1 text-xs text-muted-foreground">Top {cutoff} from each group advance to the next stage</p></div><Badge variant="gold">Next stage pool</Badge></div><div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">{groupNames.map((name, groupIndex) => <button key={name} type="button" onClick={() => setGroup(name)} className="rounded-xl border border-border/60 bg-background/25 p-3 text-left transition-colors hover:border-primary/40"><div className="flex items-center justify-between text-xs font-semibold"><span>{name}</span><span className="text-primary">Top {cutoff}</span></div><div className="mt-2 flex flex-wrap gap-1.5">{teams.slice(0, cutoff).map((team, index) => <span key={team} className="inline-flex items-center gap-1.5 rounded-md bg-secondary/70 px-2 py-1 text-[10px] text-muted-foreground"><span>{index + 1}.</span><TeamName name={index === 0 ? ['Nova Reign', 'DRS Gaming', 'Vortex Prime', 'Raven Unit'][groupIndex] : team} />{index < cutoff ? <span className="ml-1 rounded-full bg-primary/15 px-1.5 py-0.5 text-[9px] font-bold text-primary">QUALIFIED</span> : <span className="ml-1 rounded-full bg-secondary px-1.5 py-0.5 text-[9px]">WAITING</span>}</span>)}</div></button>)}</div></div>}
+        {stage !== 'grand-finals' && <div className="mt-5 rounded-2xl border border-gold/25 bg-gold/[0.035] p-4"><div className="mb-3 flex items-center justify-between"><div><div className="flex items-center gap-2 text-sm font-semibold"><Trophy className="size-4 text-gold" /> {activeStage.label} · all groups qualification</div><p className="mt-1 text-xs text-muted-foreground">Top {cutoff} from each group advance to the next stage</p></div><Badge variant="gold">Next stage pool</Badge></div><div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">{groupNames.map((name, groupIndex) => <button key={name} type="button" onClick={() => setGroup(name)} className="rounded-xl border border-border/60 bg-background/25 p-3 text-left transition-colors hover:border-primary/40"><div className="flex items-center justify-between text-xs font-semibold"><span>{name}</span><span className="text-primary">Top {cutoff}</span></div><div className="mt-2 flex flex-wrap gap-1.5">{teams.map((team, index) => <span key={team} className="inline-flex items-center gap-1.5 rounded-md bg-secondary/70 px-2 py-1 text-[10px] text-muted-foreground"><span>{index + 1}.</span><TeamName name={index === 0 ? ['Nova Reign', 'DRS Gaming', 'Vortex Prime', 'Raven Unit'][groupIndex] : team} />{index < cutoff ? <span className="ml-1 rounded-full bg-primary/15 px-1.5 py-0.5 text-[9px] font-bold text-primary">QUALIFIED</span> : <span className="ml-1 rounded-full bg-secondary px-1.5 py-0.5 text-[9px]">WAITING</span>}</span>)}</div></button>)}</div></div>}
 
         {stage === 'grand-finals' ? (
           <div className="mt-5 grid gap-4 lg:grid-cols-[1.15fr_.85fr]">
