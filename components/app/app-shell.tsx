@@ -84,15 +84,20 @@ export function AppShell({
       </aside>
 
       {/* Mobile top bar */}
-      <div className="flex items-center justify-between border-b border-border bg-sidebar px-4 py-3 lg:hidden">
-        <Logo />
-        <button
+      <div className="border-b border-border bg-sidebar lg:hidden">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Logo />
+          <button
           onClick={() => setOpen((v) => !v)}
           className="grid size-9 place-items-center rounded-md text-muted-foreground hover:bg-secondary"
           aria-label="Menu"
         >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
-        </button>
+            {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
+        </div>
+        <div className="flex gap-2 overflow-x-auto px-4 pb-3 [scrollbar-width:none]">
+          {[...items.slice(0, 4), ...items.filter((it) => it.label === 'Gaming Shop')].map((it) => <Link key={it.href} href={it.href} className={cn('shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold', pathname === it.href ? 'border-primary/40 bg-primary/10 text-primary' : 'border-border text-muted-foreground')}>{it.label}</Link>)}
+        </div>
       </div>
       {open && (
         <div className="border-b border-border bg-sidebar px-3 py-3 lg:hidden">
