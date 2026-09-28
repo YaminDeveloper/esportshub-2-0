@@ -7,6 +7,7 @@ import {
   Trophy,
   Bell,
   Settings,
+  ShoppingBag,
 } from 'lucide-react'
 import { AppShell, type NavItem } from '@/components/app/app-shell'
 
@@ -16,6 +17,7 @@ const items: NavItem[] = [
   { href: '/dashboard/matches', label: 'Matches', icon: Swords },
   { href: '/dashboard/tournaments', label: 'Tournaments', icon: Trophy },
   { href: '/dashboard/notifications', label: 'Notifications', icon: Bell },
+  { href: '/dashboard/shop', label: 'Gaming Shop', icon: ShoppingBag },
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ]
 
