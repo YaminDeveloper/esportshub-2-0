@@ -11,8 +11,8 @@ import {
 import { AppShell, type NavItem } from '@/components/app/app-shell'
 
 const items: NavItem[] = [
-  { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
-  { href: '/dashboard/team', label: 'My Team', icon: Users },
+  { href: '/dashboard', label: 'Organization', icon: LayoutDashboard },
+  { href: '/dashboard/team', label: 'Rosters', icon: Users },
   { href: '/dashboard/matches', label: 'Matches', icon: Swords },
   { href: '/dashboard/tournaments', label: 'Tournaments', icon: Trophy },
   { href: '/dashboard/notifications', label: 'Notifications', icon: Bell },
@@ -25,7 +25,7 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <AppShell items={items} label="Player Hub" user={{ handle: 'Razor', sub: 'VTX · Duelist' }}>
+    <AppShell items={items} label="Organization Hub" user={{ handle: 'Nexus Esports', sub: 'Multi-game org' }}>
       {children}
     </AppShell>
   )
