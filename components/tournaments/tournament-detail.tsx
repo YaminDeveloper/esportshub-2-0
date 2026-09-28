@@ -202,6 +202,7 @@ export function TournamentDetail({ t }: { t: Tournament }) {
                     { k: 'Structure', v: t.format },
                     { k: 'Teams', v: `${t.maxTeams} slots` },
                     { k: 'Match Type', v: t.game === 'pubg-mobile' ? 'Battle Royale · Points' : 'Best of 3 (Finals Bo5)' },
+                    ...(t.game === 'pubg-mobile' ? [{ k: 'Maps', v: 'Erangel · Miramar · Sanhok' }] : []),
                     { k: 'Check-in', v: '60 minutes before start' },
                   ].map((row) => (
                     <div key={row.k} className="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3">
