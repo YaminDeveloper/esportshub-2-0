@@ -2,6 +2,7 @@
 
 import {
   LayoutDashboard,
+  Building2,
   Users,
   Swords,
   Trophy,
@@ -12,7 +13,8 @@ import {
 import { AppShell, type NavItem } from '@/components/app/app-shell'
 
 const items: NavItem[] = [
-  { href: '/dashboard', label: 'Organization', icon: LayoutDashboard },
+  { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
+  { href: '/dashboard/organization', label: 'Organization', icon: Building2 },
   { href: '/dashboard/team', label: 'Rosters', icon: Users },
   { href: '/dashboard/matches', label: 'Matches', icon: Swords },
   { href: '/dashboard/tournaments', label: 'Tournaments', icon: Trophy },
